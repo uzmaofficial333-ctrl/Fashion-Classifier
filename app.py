@@ -37,7 +37,7 @@ def load_assets():
     # Model load karna with safety try-except
     try:
         from tensorflow import keras
-        model = tf.models.load_model('my_product_model.h5', compile=False)
+        model = tf.keras.models.load_model('my_product_model.h5', compile=False)
     except Exception as e:
         st.error(f"Error loading model: {e}")
         return None, None
