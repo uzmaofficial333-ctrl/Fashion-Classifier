@@ -32,9 +32,14 @@ st.markdown("---")
 # 2. Load Model & Dataset
 @st.cache_resource
 def load_assets():
-    # Model load karna
-    model = tf.keras.models.load_model('my_product_model.h5',compile=False)
-    # Dataset load karna aur bad lines skip karna
+    # Model load karna with safety try-except
+    try:
+        model = tf.keras.models.load_model('my_product_model.h5', compile=False)
+    except Exception as e:
+        st.error(f"Error loading model: {e}")
+        return None, None
+        
+    # Dataset load karna
     df = pd.read_csv('styles.csv', on_bad_lines='skip')
     return model, df
 
