@@ -34,19 +34,25 @@ st.markdown("---")
 # 2. Load Model & Dataset
 @st.cache_resource
 def load_assets():
-    # Model load karna with safety try-except
     try:
-        from tensorflow import keras
+        # TensorFlow ko direct access karein
+        import tensorflow as tf
         model = tf.keras.models.load_model('my_product_model.h5', compile=False)
+        df = pd.read_csv('styles.csv', on_bad_lines='skip')
+        return model, df
     except Exception as e:
-        st.error(f"Error loading model: {e}")
+        st.error(f"Model Load Nahi Ho Saka: {e}")
         return None, None
-        
-    # Dataset load karna
-    df = pd.read_csv('styles.csv', on_bad_lines='skip')
-    return model, df
 
 model, df = load_assets()
+
+# Prediction wali line se pehle ye check lazmi lagayein
+if st.button("🚀 Analyze Product"):
+    if model is not None:
+        prediction = model.predict(img_array)
+        # ... baqi prediction ka code
+    else:
+        st.error("Model available nahi hai. Pehle loading error theek karein.")
 class_labels = ['Accessories', 'Apparel', 'Footwear', 'Personal Care']
 
 # 3. Sidebar
