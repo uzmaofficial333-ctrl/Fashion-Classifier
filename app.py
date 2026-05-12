@@ -33,7 +33,7 @@ st.markdown("---")
 @st.cache_resource
 def load_assets():
     # Model load karna
-    model = tf.keras.models.load_model('my_product_model.h5')
+    model = tf.keras.models.load_model('my_product_model.h5',compile=False)
     # Dataset load karna aur bad lines skip karna
     df = pd.read_csv('styles.csv', on_bad_lines='skip')
     return model, df
